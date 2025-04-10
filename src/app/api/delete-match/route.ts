@@ -12,7 +12,7 @@ type Match = {
 };
 
 // Define your password here (you can move to an environment variable later)
-const ADMIN_PASSWORD = process.env.DELETE_PASSWORD || 'mySecret123';
+const ADMIN_PASSWORD = process.env.DELETE_PASSWORD || '821Fovrd!3131';
 
 export async function DELETE(req: Request) {
   try {
