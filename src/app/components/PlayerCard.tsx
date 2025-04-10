@@ -41,6 +41,32 @@ export default function PlayerCard({
   const [selectedOpponent, setSelectedOpponent] =
     useState<SelectedOpponent | null>(null);
 
+  const handleDeleteMatch = async (matchId: number) => {
+    const confirmDelete = confirm(
+      'Are you sure you want to delete this match?',
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch('/api/delete-match', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ matchId }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        alert('Match removed!');
+        location.reload();
+      } else {
+        alert('Failed to delete match');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong');
+    }
+  };
+
   const records: { [opponentId: number]: { wins: number; losses: number } } =
     {};
 
@@ -168,11 +194,22 @@ export default function PlayerCard({
                           : match.score[String(match.player1Id)];
 
                       return (
-                        <li key={match.id} className='flex justify-between'>
-                          <span>Game {match.id}</span>
-                          <span>
-                            {myScore} - {oppScore}
-                          </span>
+                        <li
+                          key={match.id}
+                          className='flex items-center justify-between gap-4'
+                        >
+                          <div className='flex w-full justify-between'>
+                            <span>Game {match.id}</span>
+                            <span>
+                              {myScore} - {oppScore}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => handleDeleteMatch(match.id)}
+                            className='text-sm text-red-600 hover:underline'
+                          >
+                            Remove
+                          </button>
                         </li>
                       );
                     })}
