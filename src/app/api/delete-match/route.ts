@@ -1,6 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 
+type Match = {
+  id: number;
+  player1Id: number;
+  player2Id: number;
+  date: string;
+  score: {
+    [playerId: string]: number;
+  };
+};
+
 export async function DELETE(req: Request) {
   try {
     const { matchId } = await req.json();
@@ -9,7 +19,7 @@ export async function DELETE(req: Request) {
     const data = fs.readFileSync(filePath, 'utf-8');
     const parsed = JSON.parse(data);
 
-    parsed.matches = parsed.matches.filter((m: any) => m.id !== matchId);
+    parsed.matches = parsed.matches.filter((m: Match) => m.id !== matchId);
 
     fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2));
 
