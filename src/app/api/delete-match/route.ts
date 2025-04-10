@@ -11,11 +11,21 @@ type Match = {
   };
 };
 
+// Define your password here (you can move to an environment variable later)
+const ADMIN_PASSWORD = process.env.DELETE_PASSWORD || 'mySecret123';
+
 export async function DELETE(req: Request) {
   try {
-    const { matchId } = await req.json();
-    const filePath = path.join(process.cwd(), 'matches.json');
+    const { matchId, password } = await req.json();
 
+    if (password !== ADMIN_PASSWORD) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid password' }),
+        { status: 401 },
+      );
+    }
+
+    const filePath = path.join(process.cwd(), 'matches.json');
     const data = fs.readFileSync(filePath, 'utf-8');
     const parsed = JSON.parse(data);
 

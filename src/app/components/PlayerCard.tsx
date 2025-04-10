@@ -47,11 +47,14 @@ export default function PlayerCard({
     );
     if (!confirmDelete) return;
 
+    const password = prompt("Enter Kevin's password to delete this match:");
+    if (!password) return;
+
     try {
       const res = await fetch('/api/delete-match', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ matchId }),
+        body: JSON.stringify({ matchId, password }),
       });
 
       const result = await res.json();
@@ -59,7 +62,7 @@ export default function PlayerCard({
         alert('Match removed!');
         location.reload();
       } else {
-        alert('Failed to delete match');
+        alert(result.error || 'Failed to delete match');
       }
     } catch (error) {
       console.error(error);
