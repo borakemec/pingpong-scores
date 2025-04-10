@@ -1,9 +1,25 @@
 {
   "players": [
-    { "id": 1, "name": "Kevin", "image": "" },
-    { "id": 2, "name": "Anthony", "image": "" },
-    { "id": 3, "name": "Amal", "image": "" },
-    { "id": 4, "name": "Raghu", "image": "" }
+    {
+      "id": 1,
+      "name": "Kevin",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Anthony",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Amal",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "Raghu",
+      "image": ""
+    }
   ],
   "matches": [
     {
@@ -11,14 +27,30 @@
       "player1Id": 1,
       "player2Id": 3,
       "date": "2025-04-10",
-      "score": { "1": 11, "3": 7 }
+      "score": {
+        "1": 11,
+        "3": 7
+      }
     },
     {
       "id": 102,
       "player1Id": 1,
       "player2Id": 3,
       "date": "2025-04-10",
-      "score": { "1": 11, "3": 7 }
+      "score": {
+        "1": 11,
+        "3": 7
+      }
+    },
+    {
+      "player1Id": 1,
+      "player2Id": 2,
+      "date": "2025-04-10",
+      "score": {
+        "1": 11,
+        "2": 1
+      },
+      "id": 103
     }
   ]
 }
