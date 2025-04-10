@@ -3,22 +3,22 @@
     {
       "id": 1,
       "name": "Kevin",
-      "image": ""
+      "image": "/kevin.jpeg"
     },
     {
       "id": 2,
       "name": "Anthony",
-      "image": ""
+      "image": "/anthony.jpeg"
     },
     {
       "id": 3,
       "name": "Amal",
-      "image": ""
+      "image": "/amal.jpeg"
     },
     {
       "id": 4,
       "name": "Raghu",
-      "image": ""
+      "image": "/raghu.jpeg"
     }
   ],
   "matches": [

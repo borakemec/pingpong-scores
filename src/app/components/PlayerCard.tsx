@@ -110,7 +110,7 @@ export default function PlayerCard({
         <img
           src={image}
           alt='image'
-          className='size-[10rem] rounded-md object-cover'
+          className='size-[10rem] rounded-md object-cover object-top'
         />
       ) : (
         <div className='size-[10rem] rounded-md bg-gray-300'></div>
