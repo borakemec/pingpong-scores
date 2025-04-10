@@ -1,11 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PlayerCard from './components/PlayerCard';
-import matchesData from '../../matches.json';
+
+type Match = {
+  id: number;
+  player1Id: number;
+  player2Id: number;
+  date: string;
+  score: {
+    [playerId: string]: number;
+  };
+};
+
+type Player = {
+  id: number;
+  name: string;
+  image?: string;
+};
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [player1Id, setPlayer1Id] = useState<number | undefined>();
   const [player2Id, setPlayer2Id] = useState<number | undefined>();
@@ -14,6 +32,19 @@ export default function Home() {
   const [date, setDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
+
+  const fetchMatches = async () => {
+    setLoading(true);
+    const res = await fetch('/api/get-matches');
+    const data = await res.json();
+    setPlayers(data.players);
+    setMatches(data.matches);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchMatches();
+  }, []);
 
   const handleSubmit = async () => {
     if (!player1Id || !player2Id || player1Id === player2Id)
@@ -40,8 +71,7 @@ export default function Home() {
       if (result.success) {
         alert('Match added!');
         setShowModal(false);
-        // Optionally: refresh page or re-fetch matches
-        location.reload();
+        fetchMatches(); // 🔁 refresh match list
       } else {
         alert('Failed to add match');
       }
@@ -51,10 +81,14 @@ export default function Home() {
     }
   };
 
+  if (loading) {
+    return <p className='p-10 text-2xl text-white'>Loading...</p>;
+  }
+
   return (
     <div className='flex h-full w-full flex-wrap items-start justify-around gap-8 bg-[#3b3b3b] px-10 py-10'>
-      {matchesData.players.map(player => {
-        const playerMatches = matchesData.matches.filter(
+      {players.map(player => {
+        const playerMatches = matches.filter(
           match =>
             match.player1Id === player.id || match.player2Id === player.id,
         );
@@ -66,7 +100,7 @@ export default function Home() {
             name={player.name}
             image={player.image}
             matchData={playerMatches}
-            players={matchesData.players}
+            players={players}
           />
         );
       })}
@@ -95,7 +129,7 @@ export default function Home() {
               <option value='' disabled>
                 Select Player
               </option>
-              {matchesData.players.map(p => (
+              {players.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.name}
                 </option>
@@ -111,7 +145,7 @@ export default function Home() {
               <option value='' disabled>
                 Select Opponent
               </option>
-              {matchesData.players.map(p => (
+              {players.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.name}
                 </option>
