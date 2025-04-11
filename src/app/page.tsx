@@ -17,6 +17,7 @@ type Player = {
   id: number;
   name: string;
   image?: string;
+  elo: number;
 };
 
 export default function Home() {
@@ -87,23 +88,27 @@ export default function Home() {
 
   return (
     <div className='flex h-full w-full flex-wrap items-start justify-around gap-8 bg-[#3b3b3b] px-10 py-10'>
-      {players.map(player => {
-        const playerMatches = matches.filter(
-          match =>
-            match.player1Id === player.id || match.player2Id === player.id,
-        );
+      {[...players]
+        .sort((a, b) => b.elo - a.elo)
+        .map((player, index) => {
+          const playerMatches = matches.filter(
+            match =>
+              match.player1Id === player.id || match.player2Id === player.id,
+          );
 
-        return (
-          <PlayerCard
-            key={player.id}
-            id={player.id}
-            name={player.name}
-            image={player.image}
-            matchData={playerMatches}
-            players={players}
-          />
-        );
-      })}
+          return (
+            <PlayerCard
+              key={player.id}
+              id={player.id}
+              name={player.name}
+              image={player.image}
+              matchData={playerMatches}
+              players={players}
+              elo={player.elo}
+              rank={index + 1}
+            />
+          );
+        })}
 
       {/* Add Match Button */}
       <button

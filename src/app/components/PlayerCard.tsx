@@ -29,6 +29,15 @@ type PlayerCardProps = {
   image?: string;
   matchData: Match[];
   players: Player[];
+  elo: number;
+  rank: number;
+};
+
+const rankMap: Record<number, string> = {
+  1: '/number1.png',
+  2: '/number2.png',
+  3: '/number3.png',
+  4: '/retard2.png',
 };
 
 export default function PlayerCard({
@@ -37,6 +46,8 @@ export default function PlayerCard({
   image,
   matchData,
   players,
+  elo,
+  rank,
 }: PlayerCardProps) {
   const [selectedOpponent, setSelectedOpponent] =
     useState<SelectedOpponent | null>(null);
@@ -108,6 +119,13 @@ export default function PlayerCard({
 
   return (
     <div className='relative flex h-[90%] w-[22%] flex-col items-center gap-4 rounded-lg bg-[#e7e7e7] pt-6 pb-10'>
+      <div className='flex w-full items-center justify-between pr-34'>
+        <img src={rankMap[rank]} alt='rank image' className='size-[5rem]' />
+        <span className='text-center text-2xl font-bold text-gray-600'>
+          Elo: {elo}
+        </span>
+      </div>
+
       {/* Player image and name */}
       {image ? (
         <img
@@ -121,7 +139,7 @@ export default function PlayerCard({
       <p className='text-3xl font-bold text-[#3b3b3b]'>{name}</p>
 
       {/* Opponent records */}
-      <div className='mt-10 flex flex-col items-start gap-4 text-gray-700'>
+      <div className='mt-4 flex flex-col items-start gap-4 text-gray-700'>
         {Object.entries(records).map(([opponentIdStr, result]) => {
           const opponentId = parseInt(opponentIdStr);
           const opponent = players.find(p => p.id === opponentId);
@@ -144,16 +162,31 @@ export default function PlayerCard({
       </div>
 
       {/* Total record */}
-      <p className='mt-auto text-4xl font-bold'>
-        Total:{' '}
-        <span className='text-green-600'>
-          {Object.values(records).reduce((acc, curr) => acc + curr.wins, 0)}W
-        </span>{' '}
-        /{' '}
-        <span className='text-red-700'>
-          {Object.values(records).reduce((acc, curr) => acc + curr.losses, 0)}L
-        </span>
-      </p>
+      {(() => {
+        const wins = Object.values(records).reduce(
+          (acc, curr) => acc + curr.wins,
+          0,
+        );
+        const losses = Object.values(records).reduce(
+          (acc, curr) => acc + curr.losses,
+          0,
+        );
+        const totalGames = wins + losses;
+        const winRate =
+          totalGames > 0 ? ((wins / totalGames) * 100).toFixed(1) : '0.0';
+
+        return (
+          <>
+            <p className='mt-auto text-4xl font-bold'>
+              Total: <span className='text-green-600'>{wins}W</span> /{' '}
+              <span className='text-red-700'>{losses}L</span>
+            </p>
+            <p className='text-xl font-medium text-gray-800'>
+              Win Rate: {winRate}%
+            </p>
+          </>
+        );
+      })()}
 
       {/* Modal */}
       {selectedOpponent && (
