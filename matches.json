@@ -4,25 +4,25 @@
       "id": 1,
       "name": "Kevin",
       "image": "/kevin.jpeg",
-      "elo": 69
+      "elo": 0
     },
     {
       "id": 2,
       "name": "Anthony",
       "image": "/anthony.jpeg",
-      "elo": -6
+      "elo": 0
     },
     {
       "id": 3,
       "name": "Amal",
       "image": "/amal.jpeg",
-      "elo": -16
+      "elo": 0
     },
     {
       "id": 4,
       "name": "Raghu",
       "image": "/raghu.jpeg",
-      "elo": -47
+      "elo": 0
     }
   ],
   "matches": []
