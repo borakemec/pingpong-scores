@@ -1,50 +1,70 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import fs from 'fs';
-import path from 'path';
+import { pool } from '@/lib/db';
 
 export async function POST(req: Request) {
+  const client = await pool.connect();
+
   try {
-    const newMatch = await req.json();
-    const filePath = path.join(process.cwd(), 'matches.json');
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const match = await req.json();
+    const { player1Id, player2Id, date, score } = match;
 
-    // Add match ID (auto-increment)
-    const nextId = Math.max(0, ...data.matches.map((m: any) => m.id)) + 1;
-    newMatch.id = nextId;
-    data.matches.push(newMatch);
+    // Get next ID manually
+    const nextIdResult = await client.query(
+      'SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM matches',
+    );
+    const nextId = nextIdResult.rows[0].next_id;
 
-    // Calculate Elo after adding the match
-    const { player1Id, player2Id, score } = newMatch;
-    const player1 = data.players.find((p: any) => p.id === player1Id);
-    const player2 = data.players.find((p: any) => p.id === player2Id);
+    // Get current player ELOs
+    const res = await client.query('SELECT * FROM players WHERE id = ANY($1)', [
+      [player1Id, player2Id],
+    ]);
+
+    const player1 = res.rows.find(p => p.id === player1Id);
+    const player2 = res.rows.find(p => p.id === player2Id);
+    if (!player1 || !player2) throw new Error('Player(s) not found');
 
     const p1Score = score[player1Id];
     const p2Score = score[player2Id];
-
-    // Initialize Elo if missing
-    player1.elo = player1.elo ?? 0;
-    player2.elo = player2.elo ?? 0;
 
     const winner = p1Score > p2Score ? player1 : player2;
     const loser = p1Score > p2Score ? player2 : player1;
 
     const expectedWinner =
       1 / (1 + Math.pow(10, (loser.elo - winner.elo) / 400));
-    const expectedLoser = 1 - expectedWinner;
     const pointDiff = Math.abs(p1Score - p2Score);
     const K = 32 * (1 + pointDiff / 10);
 
-    winner.elo = Math.round(winner.elo + K * (1 - expectedWinner));
-    loser.elo = Math.round(loser.elo + K * (0 - expectedLoser));
+    const eloDelta = Math.round(K * (1 - expectedWinner));
 
-    // Save updated data
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    // Start transaction
+    await client.query('BEGIN');
+
+    // Insert the match with elo_delta
+    await client.query(
+      'INSERT INTO matches (id, player1_id, player2_id, date, score, elo_delta) VALUES ($1, $2, $3, $4, $5, $6)',
+      [nextId, player1Id, player2Id, date, score, eloDelta],
+    );
+
+    // Update players' elo
+    await client.query('UPDATE players SET elo = elo + $1 WHERE id = $2', [
+      eloDelta,
+      winner.id,
+    ]);
+    await client.query('UPDATE players SET elo = elo - $1 WHERE id = $2', [
+      eloDelta,
+      loser.id,
+    ]);
+
+    await client.query('COMMIT');
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({ success: false, error: error.message }),
-      { status: 500 },
-    );
+  } catch (err: unknown) {
+    await client.query('ROLLBACK');
+    console.error('Match insert error:', err);
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return new Response(JSON.stringify({ success: false, error: message }), {
+      status: 500,
+    });
+  } finally {
+    client.release();
   }
 }

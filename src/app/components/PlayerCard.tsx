@@ -212,13 +212,11 @@ export default function PlayerCard({
                 <div key={date}>
                   <div className='flex justify-center'>
                     <h3 className='mb-2 text-xl font-semibold'>
-                      {(() => {
-                        const [year, month, day] = date.split('-');
-                        const formattedDate = new Date(+year, +month - 1, +day);
-                        return `${formattedDate.toLocaleString('en-US', {
-                          month: 'long',
-                        })} ${day}, ${year}`;
-                      })()}
+                      {new Date(date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
                     </h3>
                   </div>
                   <ul className='space-y-1'>

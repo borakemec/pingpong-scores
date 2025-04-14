@@ -1,29 +1,320 @@
 {
-  "players": [
-    {
-      "id": 1,
-      "name": "Kevin",
-      "image": "/kevin.jpeg",
-      "elo": 0
-    },
-    {
-      "id": 2,
-      "name": "Anthony",
-      "image": "/anthony.jpeg",
-      "elo": 0
-    },
-    {
-      "id": 3,
-      "name": "Amal",
-      "image": "/amal.jpeg",
-      "elo": 0
-    },
-    {
-      "id": 4,
-      "name": "Raghu",
-      "image": "/raghu.jpeg",
-      "elo": 0
-    }
-  ],
-  "matches": []
+    "players": [
+        {
+            "id": 1,
+            "name": "Kevin",
+            "image": "/kevin.jpeg",
+            "elo": 76
+        },
+        {
+            "id": 2,
+            "name": "Anthony",
+            "image": "/anthony.jpeg",
+            "elo": -4
+        },
+        {
+            "id": 3,
+            "name": "Amal",
+            "image": "/amal.jpeg",
+            "elo": -172
+        },
+        {
+            "id": 4,
+            "name": "Raghu",
+            "image": "/raghu.jpeg",
+            "elo": 100
+        }
+    ],
+    "matches": [
+        {
+            "player1Id": 2,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "2": 11,
+                "3": 7
+            },
+            "id": 1
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "2": 11,
+                "3": 9
+            },
+            "id": 2
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "3": 7
+            },
+            "id": 3
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "3": 5
+            },
+            "id": 4
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 21,
+                "3": 15
+            },
+            "id": 5
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 21,
+                "3": 13
+            },
+            "id": 6
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "3": 11,
+                "4": 9
+            },
+            "id": 7
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "3": 7,
+                "4": 11
+            },
+            "id": 8
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "3": 8,
+                "4": 11
+            },
+            "id": 9
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 2,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "2": 2
+            },
+            "id": 10
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 2,
+            "date": "2025-04-11",
+            "score": {
+                "1": 12,
+                "2": 10
+            },
+            "id": 11
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "4": 6
+            },
+            "id": 12
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "3": 5
+            },
+            "id": 13
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 2,
+            "date": "2025-04-11",
+            "score": {
+                "1": 7,
+                "2": 11
+            },
+            "id": 14
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "1": 8,
+                "3": 11
+            },
+            "id": 15
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 1,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "3": 8
+            },
+            "id": 16
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 1,
+            "date": "2025-04-11",
+            "score": {
+                "1": 11,
+                "3": 6
+            },
+            "id": 17
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 3,
+            "date": "2025-04-11",
+            "score": {
+                "2": 11,
+                "3": 7
+            },
+            "id": 18
+        },
+        {
+            "player1Id": 3,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "3": 9,
+                "4": 11
+            },
+            "id": 19
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "2": 11,
+                "4": 7
+            },
+            "id": 20
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "2": 9,
+                "4": 11
+            },
+            "id": 21
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 4,
+            "date": "2025-04-11",
+            "score": {
+                "2": 9,
+                "4": 11
+            },
+            "id": 22
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 4,
+            "date": "2025-04-12",
+            "score": {
+                "2": 11,
+                "4": 8
+            },
+            "id": 23
+        },
+        {
+            "player1Id": 2,
+            "player2Id": 4,
+            "date": "2025-04-12",
+            "score": {
+                "2": 12,
+                "4": 14
+            },
+            "id": 24
+        },
+        {
+            "player1Id": 4,
+            "player2Id": 2,
+            "date": "2025-04-12",
+            "score": {
+                "2": 7,
+                "4": 11
+            },
+            "id": 25
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 4,
+            "date": "2025-04-12",
+            "score": {
+                "1": 10,
+                "4": 12
+            },
+            "id": 26
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 4,
+            "date": "2025-04-12",
+            "score": {
+                "1": 4,
+                "4": 11
+            },
+            "id": 27
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-14",
+            "score": {
+                "1": 11,
+                "3": 5
+            },
+            "id": 28
+        },
+        {
+            "player1Id": 1,
+            "player2Id": 3,
+            "date": "2025-04-14",
+            "score": {
+                "1": 11,
+                "3": 3
+            },
+            "id": 29
+        }
+    ]
 }
