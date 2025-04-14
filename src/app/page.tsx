@@ -21,7 +21,7 @@ type Player = {
 };
 
 export default function Home() {
-  console.log('Environment:', process.env.DATABASE_URL);
+  console.log('Environment:', process.env.DB_URL);
   const [showModal, setShowModal] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Match[]>([]);
